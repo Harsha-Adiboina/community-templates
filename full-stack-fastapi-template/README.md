@@ -6,7 +6,6 @@
 ## Dependencies
 
 The project requires:
-
 - Python 3.x
 - FastAPI
 - Docker and Docker Compose
