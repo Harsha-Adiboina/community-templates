@@ -1,5 +1,5 @@
 { pkgs, environment ? "open-ai-node", ... }: {
-    packages = if environment == "open-ai-node" then [ pkgs.nodejs_20 ] else [];
+    packages = if environment == "open-ai-node" then [ pkgs.nodejs_24 ] else [];
   bootstrap = ''
     mkdir "$out"
     cp -rf ${./.}/${environment}/* "$out"
