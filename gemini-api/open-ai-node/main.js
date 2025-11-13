@@ -8,11 +8,11 @@ let API_KEY = 'TODO';
 
 const openai = new OpenAI({
     apiKey: API_KEY,
-    baseURL: "https://generativelanguage.googleapis.com/v1beta/"
+     baseURL: "https://generativelanguage.googleapis.com/v1beta/" 
 });
 
 const response = await openai.chat.completions.create({
-    model: "gemini-1.5-flash",
+    model: "gemini-2.5-flash",
     messages: [
         { role: "system", content: "You are a helpful assistant." },
         {

@@ -7,6 +7,6 @@
     "dev": "node main.js"
   },
   "dependencies": {
-    "openai": "^4.71.1"
+    "openai": "^6.8.1"
   }
 }
