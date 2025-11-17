@@ -1,7 +1,7 @@
 
 { pkgs, ... }: {
   packages = [
-    pkgs.go_1_24
+    pkgs.go
   ];
   bootstrap = ''
     mkdir "$out"
