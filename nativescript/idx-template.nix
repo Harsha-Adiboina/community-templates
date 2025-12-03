@@ -36,8 +36,13 @@
     rmdir "$out/example"
     chmod -R +w "$out"
 
-    # Now install dependencies from the new package.json, resolving peer dependency issues
-    cd "$out"; npm install nativescript@8.6.1
+    # Go into the new project directory
+    cd "$out"
+
+    # Remove the old, conflicting lock file
+    rm -f package-lock.json
+
+    # Install dependencies from package.json, creating a new, consistent lock file
     npm install --legacy-peer-deps
   '';
 }
