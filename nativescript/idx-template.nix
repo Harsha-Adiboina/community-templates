@@ -28,21 +28,18 @@
     cp -rf ${./dev.nix} "$out/.idx/dev.nix"
     shopt -s dotglob; cp -r ${./dev}/* "$out"
     npm install nativescript@8.6.1
-
-    # Create the project without installing dependencies to avoid peer dependency errors
-    ./node_modules/nativescript/bin/ns create example --${template} ${if ts then "--ts" else ""} --path "$out" --no-install
-
+    # Set legacy-peer-deps to true to resolve dependency conflicts
+    npm config set legacy-peer-deps true
+    ./node_modules/nativescript/bin/ns create example --${template} ${if ts then "--ts" else ""} --path "$out"
+    # Unset legacy-peer-deps
+    npm config set legacy-peer-deps false
     mv "$out/example"/* "$out/"
     rmdir "$out/example"
     chmod -R +w "$out"
-
-    # Go into the new project directory
-    cd "$out"
-
-    # Remove the old, conflicting lock file
-    rm -f package-lock.json
-
-    # Install dependencies from package.json, creating a new, consistent lock file
-    npm install --legacy-peer-deps
+    cd "$out"; npm install -D nativescript@8.6.1
+    if [ "${template}" = "vue" ]; then
+      cd "$out"; npm install -D vue-loader@15.9.8 vue-style-loader@4.1.3 nativescript-vue-template-compiler@~2.9.0
+    fi
+    cd "$out"; npm install --package-lock-only --ignore-scripts
   '';
 }
