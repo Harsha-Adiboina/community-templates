@@ -22,7 +22,7 @@
     pkgs.python311Packages.fastapi
     pkgs.python311Packages.uvicorn
   ];
-  bootstrap = ''    
+  bootstrap = ''
     mkdir "$out"
     mkdir -p "$out/.idx/"
     cp -rf ${./dev.nix} "$out/.idx/dev.nix"
@@ -38,7 +38,7 @@
     chmod -R +w "$out"
     cd "$out"; npm install -D nativescript@8.6.1
     if [ "${template}" = "vue" ]; then
-      cd "$out"; npm install -D vue-loader@15.9.8 vue-style-loader@4.1.3
+      cd "$out"; npm install -D vue-loader vue-style-loader vue-template-compiler
     fi
     cd "$out"; npm install --package-lock-only --ignore-scripts
   '';
