@@ -37,7 +37,7 @@
     chmod -R +w "$out"
 
     # Now install dependencies from the new package.json, resolving peer dependency issues
-    cd "$out"
+    cd "$out"; npm install nativescript@8.6.1
     npm install --legacy-peer-deps
   '';
 }
