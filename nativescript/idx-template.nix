@@ -27,12 +27,15 @@
     mkdir -p "$out/.idx/"
     cp -rf ${./dev.nix} "$out/.idx/dev.nix"
     shopt -s dotglob; cp -r ${./dev}/* "$out"
-    npm install nativescript@8.6.1
+    npm install nativescript@8.9.9
     ./node_modules/nativescript/bin/ns create example --${template} ${if ts then "--ts" else ""} --path "$out"
     mv "$out/example"/* "$out/"
     rmdir "$out/example"
     chmod -R +w "$out"
-    cd "$out"; npm install -D nativescript@8.6.1
+    cd "$out"; npm install -D nativescript@8.9.9
+    if [ "${template}" = "vue" ]; then
+      cd "$out"; npm install -D vue-loader@15.9.8 vue-style-loader@4.1.3
+    fi
     cd "$out"; npm install --package-lock-only --ignore-scripts
   '';
 }
