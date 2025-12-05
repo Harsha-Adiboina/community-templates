@@ -22,24 +22,22 @@
     pkgs.python311Packages.fastapi
     pkgs.python311Packages.uvicorn
   ];
-  bootstrap = ''
-    mkdir "$out"
-    mkdir -p "$out/.idx/"
-    cp -rf ${./dev.nix} "$out/.idx/dev.nix"
-    shopt -s dotglob; cp -r ${./dev}/* "$out"
-    npm install nativescript@8.6.1
-    # Set legacy-peer-deps to true to resolve dependency conflicts
-    npm config set legacy-peer-deps true
-    ./node_modules/nativescript/bin/ns create example --${template} ${if ts then "--ts" else ""} --path "$out"
-    # Unset legacy-peer-deps
-    npm config set legacy-peer-deps false
-    mv "$out/example"/* "$out/"
-    rmdir "$out/example"
-    chmod -R +w "$out"
-    cd "$out"; npm install -D nativescript@8.6.1
-    if [ "${template}" = "vue" ]; then
-      cd "$out"; npm install -D vue-loader@15.9.8 vue-style-loader@4.1.3 nativescript-vue-template-compiler@~2.9.0
-    fi
-    cd "$out"; npm install --package-lock-only --ignore-scripts
-  '';
+ bootstrap = ''
+   mkdir -p "$out/.idx/"
+   cp -rf ${./dev.nix} "$out/.idx/dev.nix"
+   shopt -s dotglob; cp -r ${./dev}/* "$out"
+   if [ "${template}" = "vue" ]; then
+     npm install nativescript
+     ./node_modules/nativescript/bin/ns create example --template @nativescript-vue/template-blank@latest
+   else
+     npm install nativescript@8.6.1
+     ./node_modules/nativescript/bin/ns create example --${template} ${if ts then "--ts" else ""} --path "$out"
+   fi
+   mv "$out/example"/* "$out/"
+   rmdir "$out/example"
+   chmod -R +w "$out"
+   
+   cd "$out"; npm install -D nativescript@8.6.1
+   cd "$out"; npm install --package-lock-only --ignore-scripts
+ '';
 }
