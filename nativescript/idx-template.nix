@@ -15,8 +15,9 @@
  */
 
 { pkgs, template ? "js", ts ? false, ... }: {
-  packages = [
-    pkgs.nodejs_20
+ channel = "stable-25.05";
+packages = [
+    pkgs.nodejs
     pkgs.python3
     pkgs.python311Packages.pip
     pkgs.python311Packages.fastapi
@@ -27,17 +28,15 @@
    cp -rf ${./dev.nix} "$out/.idx/dev.nix"
    shopt -s dotglob; cp -r ${./dev}/* "$out"
    if [ "${template}" = "vue" ]; then
-     npm install nativescript
-     ./node_modules/nativescript/bin/ns create example --template @nativescript-vue/template-blank@latest
+     npx nativescript create example --template @nativescript-vue/template-blank@latest
    else
-     npm install nativescript@8.6.1
-     ./node_modules/nativescript/bin/ns create example --${template} ${if ts then "--ts" else ""} --path "$out"
+     npx nativescript create example --${template} ${if ts then "--ts" else ""} --path "$out"
    fi
    mv "$out/example"/* "$out/"
    rmdir "$out/example"
    chmod -R +w "$out"
    
-   cd "$out"; npm install -D nativescript@8.6.1
+   cd "$out"; npm install -D nativescript
    cd "$out"; npm install --package-lock-only --ignore-scripts
  '';
 }
