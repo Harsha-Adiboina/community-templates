@@ -24,19 +24,20 @@ packages = [
     pkgs.python311Packages.uvicorn
   ];
  bootstrap = ''
-   mkdir -p "$out/.idx/"
-   cp -rf ${./dev.nix} "$out/.idx/dev.nix"
-   shopt -s dotglob; cp -r ${./dev}/* "$out"
-   if [ "${template}" = "vue" ]; then
-     npx nativescript create example --template @nativescript-vue/template-blank@latest
+   mkdir -p "$WS_NAME"
+       if [ "${template}" = "vue" ]; then
+     npx nativescript create "$WS_NAME" --template @nativescript-vue/template-blank@latest
    else
-     npx nativescript create example --${template} ${if ts then "--ts" else ""} --path "$out"
+     npx nativescript create "$WS_NAME" --${template} ${if ts then "--ts" else ""}
    fi
-   mv "$out/example"/* "$out/"
-   rmdir "$out/example"
-   chmod -R +w "$out"
-   
-   cd "$out"; npm install -D nativescript
-   cd "$out"; npm install --package-lock-only --ignore-scripts
+     mkdir -p "$WS_NAME/.idx/"
+    cp -rf ${./dev.nix} "$WS_NAME/.idx/dev.nix"
+    chmod -R +w "$WS_NAME"
+    mv "$WS_NAME" "$out"
+ 
+    chmod -R u+w "$out"
+    cd "$out"; npm install -D nativescript
+    cd "$out"; npm install --package-lock-only --ignore-scripts
+ 
  '';
 }
