@@ -32,7 +32,12 @@
       resolvedTemplate="angular"
     fi
 
-    npx nativescript create "$WS_NAME" --$resolvedTemplate ${if ts then "--ts" else ""}
+
+    if [ "${template}" = "vue" ]; then
+      npx nativescript create "$WS_NAME" --$resolvedTemplate @nativescript-vue/template-blank@latest ${if ts then "--ts" else ""}
+    else
+      npx nativescript create "$WS_NAME" --$resolvedTemplate ${if ts then "--ts" else ""}
+    fi
 
     mkdir -p "$WS_NAME/.idx/"
     cp -rf ${./dev.nix} "$WS_NAME/.idx/dev.nix"
