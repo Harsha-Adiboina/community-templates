@@ -15,32 +15,34 @@
  */
 
 { pkgs, template ? "js", ts ? false, ... }: {
- channel = "stable-24.11";
-packages = [
+  channel = "stable-24.11";
+  packages = [
     pkgs.nodejs
     pkgs.python3
     pkgs.python311Packages.pip
     pkgs.python311Packages.fastapi
     pkgs.python311Packages.uvicorn
+    pkgs.jq
   ];
- bootstrap = ''
-   mkdir -p "$WS_NAME"
-       if [ "${template}" = "vue" ]; then
-     npx nativescript create "$WS_NAME" --template @nativescript-vue/template-blank@latest
-       elif [ "${template}" = "svelte" ]; then
-     npx nativescript create "$WS_NAME" --${template} ${if ts then "--ts" else ""}
-     npx --prefer-offline -y @svelte start "$WS_NAME" blank --type=angular --no-deps --no-git --no-link --no-interactive
-   else
-     npx nativescript create "$WS_NAME" --${template} ${if ts then "--ts" else ""}
-   fi
-     mkdir -p "$WS_NAME/.idx/"
+  bootstrap = ''
+    mkdir -p "$WS_NAME"
+
+    # Resolve template alias from template.json
+    resolvedTemplate=$(jq -r ".extensions.templateAliases.${template} // \"${template}\"" ${./template.json})
+
+    if [ "$resolvedTemplate" = "@nativescript-vue/template-blank@latest" ]; then
+      npx nativescript create "$WS_NAME" --template $resolvedTemplate
+    else
+      npx nativescript create "$WS_NAME" --$resolvedTemplate ${if ts then "--ts" else ""}
+    fi
+
+    mkdir -p "$WS_NAME/.idx/"
     cp -rf ${./dev.nix} "$WS_NAME/.idx/dev.nix"
     chmod -R +w "$WS_NAME"
     mv "$WS_NAME" "$out"
- 
+
     chmod -R u+w "$out"
     cd "$out"; npm install -D nativescript
     cd "$out"; npm install --package-lock-only --ignore-scripts
- 
- '';
+  '';
 }
