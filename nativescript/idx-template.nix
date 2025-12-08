@@ -27,7 +27,7 @@ packages = [
    mkdir -p "$WS_NAME"
        if [ "${template}" = "vue" ]; then
      npx nativescript create "$WS_NAME" --template @nativescript-vue/template-blank@latest
-       else if [ "${template}" = "svelte" ];then
+       elif [ "${template}" = "svelte" ]; then
      npx nativescript create "$WS_NAME" --${template} ${if ts then "--ts" else ""}
      npx --prefer-offline -y @svelte start "$WS_NAME" blank --type=angular --no-deps --no-git --no-link --no-interactive
    else
