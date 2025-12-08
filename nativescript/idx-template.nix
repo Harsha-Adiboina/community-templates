@@ -34,7 +34,7 @@
 
 
     if [ "${template}" = "vue" ]; then
-      npx nativescript create "$WS_NAME" --$resolvedTemplate @nativescript-vue/template-blank@latest ${if ts then "--ts" else ""}
+      npx nativescript create "$WS_NAME" --template @nativescript-vue/template-blank@latest ${if ts then "--ts" else ""}
     else
       npx nativescript create "$WS_NAME" --$resolvedTemplate ${if ts then "--ts" else ""}
     fi
