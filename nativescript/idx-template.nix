@@ -22,19 +22,17 @@
     pkgs.python311Packages.pip
     pkgs.python311Packages.fastapi
     pkgs.python311Packages.uvicorn
-    pkgs.jq
   ];
   bootstrap = ''
     mkdir -p "$WS_NAME"
 
-    # Resolve template alias from template.json
-    resolvedTemplate=$(jq -r ".extensions.templateAliases.${template} // \"${template}\"" ${./template.json})
-
-    if [ "$resolvedTemplate" = "@nativescript-vue/template-blank@latest" ]; then
-      npx nativescript create "$WS_NAME" --template $resolvedTemplate
-    else
-      npx nativescript create "$WS_NAME" --$resolvedTemplate ${if ts then "--ts" else ""}
+    # Special case: if user selects svelte, use angular instead
+    resolvedTemplate="${template}"
+    if [ "$resolvedTemplate" = "svelte" ]; then
+      resolvedTemplate="angular"
     fi
+
+    npx nativescript create "$WS_NAME" --$resolvedTemplate ${if ts then "--ts" else ""}
 
     mkdir -p "$WS_NAME/.idx/"
     cp -rf ${./dev.nix} "$WS_NAME/.idx/dev.nix"
@@ -46,3 +44,4 @@
     cd "$out"; npm install --package-lock-only --ignore-scripts
   '';
 }
+
