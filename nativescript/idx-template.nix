@@ -15,7 +15,7 @@
  */
 
 { pkgs, template ? "js", ts ? false, ... }: {
- channel = "stable-25.05";
+ channel = "stable-24.11";
 packages = [
     pkgs.nodejs
     pkgs.python3
@@ -27,6 +27,9 @@ packages = [
    mkdir -p "$WS_NAME"
        if [ "${template}" = "vue" ]; then
      npx nativescript create "$WS_NAME" --template @nativescript-vue/template-blank@latest
+       else if [ "${template}" = "svelte" ];then
+     npx nativescript create "$WS_NAME" --${template} ${if ts then "--ts" else ""}
+     npx --prefer-offline -y @svelte start "$WS_NAME" blank --type=angular --no-deps --no-git --no-link --no-interactive
    else
      npx nativescript create "$WS_NAME" --${template} ${if ts then "--ts" else ""}
    fi
