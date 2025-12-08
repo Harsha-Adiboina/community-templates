@@ -16,6 +16,7 @@
         "nrwl.angular-console"
         "esbenp.prettier-vscode"
         "firsttris.vscode-jest-runner"
+        "angular.ng-template"
     ];
     workspace = {
       # Runs when a workspace is first created with this `dev.nix` file
