@@ -1,3 +1,4 @@
+nix
 /*
  Copyright 2024 Google LLC
 
@@ -22,14 +23,15 @@
     pkgs.python311Packages.fastapi
     pkgs.python311Packages.uvicorn
   ];
-  bootstrap = ''    
+  bootstrap = ''
     mkdir "$out"
     mkdir -p "$out/.idx/"
     cp -rf ${./dev.nix} "$out/.idx/dev.nix"
     shopt -s dotglob; cp -r ${./dev}/* "$out"
-if["${template}"='svelte'];then
-   npm config set --legacy-peer-deps true
-   npx ns create example --template @nativescript/template-blank-svelte
+    if [ "${template}" = 'svelte' ]; then
+       npm config set --legacy-peer-deps true
+       npx ns create example --template @nativescript/template-blank-svelte
+    fi
     npm install nativescript
     ./node_modules/nativescript/bin/ns create example --${template} ${if ts then "--ts" else ""} --path "$out"
     chmod -R +w "$out"
