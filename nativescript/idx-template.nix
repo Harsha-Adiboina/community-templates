@@ -16,13 +16,13 @@
 
 { pkgs, template ? "js", ts ? false, ... }: {
   packages = [
-    pkgs.nodejs_20
+    pkgs.nodejs
     pkgs.python3
     pkgs.python311Packages.pip
     pkgs.python311Packages.fastapi
     pkgs.python311Packages.uvicorn
   ];
-  bootstrap = ''
+  bootstrap = ''    
     mkdir "$out"
     mkdir -p "$out/.idx/"
     cp -rf ${./dev.nix} "$out/.idx/dev.nix"
