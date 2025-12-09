@@ -27,8 +27,10 @@
     mkdir -p "$out/.idx/"
     cp -rf ${./dev.nix} "$out/.idx/dev.nix"
     shopt -s dotglob; cp -r ${./dev}/* "$out"
+
     if [ "${template}" = "svelte" ]; then
        npm config set legacy-peer-deps true
+       npm install --save-dev nativescript
        npx ns create "$out" --template @nativescript/template-blank-svelte
        chmod -R +w "$out"
        cd "$out"
