@@ -16,7 +16,7 @@
 
 { pkgs, template ? "js", ts ? false, ... }: {
   packages = [
-    pkgs.nodejs
+    pkgs.nodejs_20
     pkgs.python3
     pkgs.python311Packages.pip
     pkgs.python311Packages.fastapi
@@ -30,7 +30,7 @@
 
     if [ "${template}" = "svelte" ]; then
        npm config set legacy-peer-deps true
-       npm install --save-dev nativescript
+       npm install --save-dev nativescript@8.6.1
        npx ns create "$out" --template @nativescript/template-blank-svelte
        chmod -R +w "$out"
        cd "$out"
@@ -39,7 +39,7 @@
        npm install nativescript
        ./node_modules/nativescript/bin/ns create example --${template} ${if ts then "--ts" else ""} --path "$out"
        chmod -R +w "$out"
-       cd "$out"; npm install -D nativescript
+       cd "$out"; npm install -D nativescript@8.6.1
        cd "$out"; npm install --package-lock-only --ignore-scripts
     fi
     
