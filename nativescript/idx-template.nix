@@ -28,7 +28,7 @@ nix
     mkdir -p "$out/.idx/"
     cp -rf ${./dev.nix} "$out/.idx/dev.nix"
     shopt -s dotglob; cp -r ${./dev}/* "$out"
-    if [ "${template}" = 'svelte' ]; then
+    if ["${template}" = 'svelte']; then
        npm config set --legacy-peer-deps true
        npx ns create example --template @nativescript/template-blank-svelte
     fi
