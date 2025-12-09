@@ -32,20 +32,15 @@
        npm config set legacy-peer-deps true
        npm install --save-dev nativescript@8.6.1
        npx ns create example --template @nativescript/template-blank-svelte --path "$out"
-       mv "$out/example"/* "$out/"
-       rmdir "$out/example"
-       chmod -R +w "$out"
-       cd "$out"; npm install -D nativescript@8.6.1
-       cd "$out"; npm install --package-lock-only --ignore-scripts
     else
        npm install nativescript
        ./node_modules/nativescript/bin/ns create example --${template} ${if ts then "--ts" else ""} --path "$out"
-        mv "$out/example"/* "$out/"
-        rmdir "$out/example"
-        chmod -R +w "$out"
-        cd "$out"; npm install -D nativescript@8.6.1
-        cd "$out"; npm install --package-lock-only --ignore-scripts
     fi
+    mv "$out/example"/* "$out/"
+    rmdir "$out/example"
+    chmod -R +w "$out"
+    cd "$out"; npm install -D nativescript@8.6.1
+    cd "$out"; npm install --package-lock-only --ignore-scripts
     
   '';
 }
