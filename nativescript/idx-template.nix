@@ -28,12 +28,13 @@ nix
     mkdir -p "$out/.idx/"
     cp -rf ${./dev.nix} "$out/.idx/dev.nix"
     shopt -s dotglob; cp -r ${./dev}/* "$out"
-    if ["${template}" = 'svelte']; then
+    if [ "${template}" = 'svelte' ]; then
        npm config set --legacy-peer-deps true
        npx ns create example --template @nativescript/template-blank-svelte
+    else
+       npm install nativescript
+       ./node_modules/nativescript/bin/ns create example --${template} ${if ts then "--ts" else ""} --path "$out"
     fi
-    npm install nativescript
-    ./node_modules/nativescript/bin/ns create example --${template} ${if ts then "--ts" else ""} --path "$out"
     chmod -R +w "$out"
     cd "$out"; npm install -D nativescript
     cd "$out"; npm install --package-lock-only --ignore-scripts
