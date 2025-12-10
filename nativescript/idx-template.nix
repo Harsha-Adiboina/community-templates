@@ -33,7 +33,7 @@
        npm install --save-dev nativescript@8.6.1
        npx ns create example --template @nativescript/template-blank-svelte --path "$out"
     else
-       npm install nativescript
+       npm install nativescript@8.6.1
        ./node_modules/nativescript/bin/ns create example --${template} ${if ts then "--ts" else ""} --path "$out"
     fi
     mv "$out/example"/* "$out/"
