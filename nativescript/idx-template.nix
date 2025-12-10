@@ -16,7 +16,7 @@
 
 { pkgs, template ? "js", ts ? false, ... }: {
   packages = [
-    pkgs.nodejs_24
+    pkgs.nodejs
     pkgs.python3
     pkgs.python311Packages.pip
     pkgs.python311Packages.fastapi
@@ -27,10 +27,10 @@
     mkdir -p "$out/.idx/"
     cp -rf ${./dev.nix} "$out/.idx/dev.nix"
     shopt -s dotglob; cp -r ${./dev}/* "$out"
+    npm config set legacy-peer-deps true
 
-    if [ "${template}" = "svelte" ]; then
-       npm config set legacy-peer-deps true
-       npm install --save-dev nativescript
+    if [ "${template}" = "svelte" ]; then       
+       npm install --save-dev nativescript@8.6.1
        npx ns create example --template @nativescript/template-blank-svelte --path "$out"
     else
        npm install nativescript
@@ -39,7 +39,7 @@
     mv "$out/example"/* "$out/"
     rmdir "$out/example"
     chmod -R +w "$out"
-    cd "$out"; npm install -D nativescript
+    cd "$out"; npm install -D nativescript@8.6.1
     cd "$out"; npm install --package-lock-only --ignore-scripts
     
   '';
