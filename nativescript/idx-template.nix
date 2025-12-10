@@ -32,9 +32,6 @@
        npm config set legacy-peer-deps true
        npm install --save-dev nativescript@8.6.1
        npx ns create example --template @nativescript/template-blank-svelte --path "$out"
-    elif [ "${template}" = "vue" ]; then
-       npm install nativescript@8.6.1
-       npx ns create example --template @nativescript-vue/template-blank --path "$out"
     else
        npm install nativescript@8.6.1
        ./node_modules/nativescript/bin/ns create example --${template} ${if ts then "--ts" else ""} --path "$out"
