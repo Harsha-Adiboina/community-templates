@@ -1,5 +1,5 @@
 const HOST = Deno.env.get("HOST");
-const PORT = Deno.env.get("PORT");
+const PORT = Number(Deno.env.get("PORT"));
 
 Deno.serve({ hostname: HOST, port: PORT }, async (req) => {
   console.log("Method:", req.method);
