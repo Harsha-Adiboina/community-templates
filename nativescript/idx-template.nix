@@ -30,7 +30,7 @@
     if [ "${template}" = "svelte" ]; then
        npm config set legacy-peer-deps true
        npm install --save-dev nativescript@8.6.1
-        npx ns create example --template @nativescript-community/template-svelte-drawer-navigation
+       npx ns create example --template @nativescript/template-blank-svelte --path "$out"
     else
        npm install nativescript@8.6.1
        ./node_modules/nativescript/bin/ns create example --${template} ${if ts then "--ts" else ""} --path "$out"
