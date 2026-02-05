@@ -24,6 +24,13 @@
       "name": "TypeScript",
       "type": "boolean",
       "default": "false"
+    },
+    {
+      "id": "firebase",
+      "name": "Firebase Analytics",
+      "description": "Enable Firebase Analytics for in-depth usage analysis.",
+      "type": "boolean",
+      "default": "false"
     }
   ]
 }
