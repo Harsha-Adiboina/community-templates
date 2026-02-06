@@ -7,40 +7,42 @@
   packages = [
     pkgs.nodejs_20
     pkgs.jdk17
-  ] ++ (lib.optional (lib.getParam "firebase" false) pkgs.google-cloud-sdk);
+    # To use Firebase features, add pkgs.google-cloud-sdk here and uncomment the
+    # npm install line in the onCreate block below.
+    # pkgs.google-cloud-sdk
+  ];
   # Sets environment variables in the workspace
   env = { };
   idx = {
     # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
-    extensions = [ 
-        "nrwl.angular-console"
-        "esbenp.prettier-vscode"
-        "firsttris.vscode-jest-runner"
+    extensions = [
+      "nrwl.angular-console"
+      "esbenp.prettier-vscode"
+      "firsttris.vscode-jest-runner"
     ];
+
     workspace = {
       # Runs when a workspace is first created with this `dev.nix` file
       onCreate = {
         install = ''
           npm ci --prefer-offline --no-audit --no-progress --timing
-          if [ "${lib.getParam "firebase" false}" = "true" ]; then
-            npm install --save @nativescript/firebase-analytics
-          fi
-          yes | npx ns preview'';
+          # To use Firebase Analytics, uncomment the following line:
+          npm install --save @nativescript/firebase-analytics
+        '';
         # Open editors for the following files by default, if they exist:
         default.openFiles = [ "app/app.js" ];
       };
       # To run something each time the workspace is (re)started, use the `onStart` hook
     };
     # Enable previews and customize configuration
-    # previews = {
-    #   enable = true;
-    #   previews = {
-    #     web = {
-    #       command =
-    #         [ "ns" "preview" "--" "--port" "$PORT" "--hostname" "0.0.0.0" ];
-    #       manager = "web";
-    #     };
-    #   };
-    # };
+    previews = {
+      enable = true;
+      # previews = {
+        # web = {
+        #   command = [ "npx" "ns" "preview" "--port" "$PORT" "--host" "0.0.0.0" ];
+        #   manager = "web";
+        # };
+      # };
+    };
   };
 }
