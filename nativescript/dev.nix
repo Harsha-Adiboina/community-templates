@@ -9,7 +9,7 @@
     pkgs.jdk17
     # To use Firebase features, add pkgs.google-cloud-sdk here and uncomment the
     # npm install line in the onCreate block below.
-    # pkgs.google-cloud-sdk
+    pkgs.google-cloud-sdk
   ];
   # Sets environment variables in the workspace
   env = { };
